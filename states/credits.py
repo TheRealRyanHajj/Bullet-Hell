@@ -18,20 +18,9 @@ class CreditsState(State):
         self.CREDITS = [
             ("Thank you for playing!", self.font_large),
             ("", self.font_small),
-            ("PRODUCER", self.font_medium),
-            ("RJ | thegreatrj27", self.font_small),
-            ("", self.font_small),
-            ("PROGRAMMER", self.font_medium),
-            ("RJ | thegreatrj27", self.font_small),
-            ("", self.font_small),
-            ("ARTIST", self.font_medium),
-            ("DumbDev | dumbdevmakegaem", self.font_small),
-            ("", self.font_small),
-            ("SOUND DESIGNER/COMPOSER", self.font_medium),
-            ("Nate | natesasson", self.font_small),
-            ("", self.font_small),
-            ("MENTOR", self.font_medium),
-            ("Big Whoop | mrbigwhoop", self.font_small)
+            ("ART", self.font_medium),
+            ("Guns: https://greenpixels.itch.io/pixel-art-assets-7", self.font_small),
+            ("", self.font_small)
         ]
         # Render text surfaces
         self.text = [font.render(line, True, (255,255,255)) for line, font in self.CREDITS]

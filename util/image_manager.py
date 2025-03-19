@@ -36,7 +36,7 @@ class ImageManager:
         return frames
 
 
-    def createFramesWithStates(spritesheet:pygame.Surface, width:int, height:int,stateName:str,frames:dict=None)->list:
+    def createFramesWithStates(spritesheet:pygame.Surface, width:int, height:int,stateName:str,frames:dict=None)->dict:
         """Takes a spritesheet and returns a list of frames"""
         framesInAWidth = spritesheet.get_width()/width
         framesInAHeight = spritesheet.get_height()/height
@@ -48,5 +48,30 @@ class ImageManager:
             for x in range(framesInAWidth):
                 """↑↑ y = direction like the DIRECTIONS LISTED ABOVE ↑↑"""
                 frames[(stateName,x,y)] = spritesheet.subsurface((x*width,y*height),(width,height))
+        return frames
+    
+    def createPlayerFrames():
+        image = pygame.image.load("assets\images\entites\player\Blue/run.png")
+        width = 16
+        height = 17
+
+        framesInAWidth = 8
+        framesInAHeight = 4
+        
+        frames = {} # Dict of frames
+        
+        for y in range(framesInAHeight):
+            for x in range(framesInAWidth):
+                frames[("Run",x,y)] = image.subsurface((x*width,y*height),(width,height))
+        
+        image = pygame.image.load("assets\images\entites\player\Blue/idle.png")
+        height = 16
+
+        for y in range(framesInAHeight):
+            for x in range(framesInAWidth):
+                frames[("Idle",x,y)] = image.subsurface((x*width,y*height),(width,height))
+        
+        
+        
         return frames
 

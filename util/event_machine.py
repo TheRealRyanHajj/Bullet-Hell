@@ -8,16 +8,7 @@ class EventMachine:
         self.state_machine = state_machine
         grefs["EventMachine"] = self
         # Dictionary to track key states
-        self.key_states = {
-            "isMovingUp": False,
-            "isMovingRight": False,
-            "isMovingDown": False,
-            "isMovingLeft": False,
-            "keyEDown": False,
-            "keyTabDown": False,
-            "keyShiftDown": False,
-            "keySPACEDown": False
-        }
+        self.key_states = {}
 
     def check_events(self):
         """Processes events and updates key states, then returns the current state dictionary."""
@@ -43,7 +34,6 @@ class EventMachine:
             pygame.K_a: "keyADown",
             pygame.K_e: "keyEDown",
             pygame.K_q: "keyQDown",
-            pygame.K_SPACE: "keySPACEDown",
             pygame.K_TAB: "keyTabDown",
             pygame.K_LSHIFT: "keyShiftDown",
             pygame.K_F1: "keyF1Down"
