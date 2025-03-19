@@ -3,6 +3,7 @@ from states.state_machine import StateMachine
 from util.event_machine import EventMachine
 from util.grefs import grefs
 from util.time_machine import TimeMachine
+from util.mouse_machine import MouseMachine
 import pygame
 
 # Initialize Pygame
@@ -21,12 +22,14 @@ class Game:
         self.state_machine = StateMachine()
         self.state_machine.change_state("menu")
         self.time_machine = TimeMachine()
+        self.MouseMachine = MouseMachine()
         self.event_machine = EventMachine(self.state_machine)
 
     def start(self):
         self.running = True
         while self.running:
             self.event_machine.check_events()
+            self.MouseMachine.update()
             self.state_machine.update()
             pygame.display.flip()
             self.time_machine.update()
