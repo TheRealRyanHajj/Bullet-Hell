@@ -22,10 +22,11 @@ class MenuState(State):
         self.playRect = pygame.Rect((272,96),(32,16))
         self.creditsRect = pygame.Rect((272,120),(32,16))
         self.exitRect = pygame.Rect((272,144),(32,16))
+        self.bg = pygame.image.load("assets/images/bg.png")
 
 
     def update(self):
-        self.window.fill((191, 191, 191))
+        self.window.blit(self.bg, (0, 0))
         self.window.blit(self.logo,(160-self.logo.get_width()/2,8))
         
         mousePos = pygame.mouse.get_pos()

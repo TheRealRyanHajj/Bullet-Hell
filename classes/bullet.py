@@ -17,7 +17,7 @@ class Bullet(Entity):
         angle = math.atan2(mouse_y - self.y, mouse_x - self.x)
         self.dx = math.cos(angle) * self.speed
         self.dy = math.sin(angle) * self.speed
-        self.image = pygame.transform.scale_by(pygame.image.load("assets/images/entites/bullets/white.png"), 0.5)
+        self.image = pygame.transform.scale_by(pygame.image.load("assets/images/entites/bullets/white.png"), 0.4)
 
         # Create a rect for collision detection
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
@@ -32,7 +32,7 @@ class Bullet(Entity):
 
         # Check if the bullet is off-screen
         if not self.rect.colliderect(pygame.Rect(0, 0, 320, 180)):
-            return True
+            grefs["game"].listOfObjects.remove(self)
 
     def removeBullet(self):
         # Assuming listOfObjects is where the bullets are stored

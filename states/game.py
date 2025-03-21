@@ -71,6 +71,7 @@ class GameState(State):
         for each in self.listOfObjects:
             if isinstance(each, Zombie):
                 each.drawHealthBar()
+        self.Player.drawUi()
 
     def exit(self):
         ...

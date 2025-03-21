@@ -55,7 +55,7 @@ class Zombie(Entity):
 
     def takeDamage(self, amount):
         self.health -= amount
-        if self.health <= 0:
+        if self.health <= 0 or self.state == "Death":
             self.y -= 16
             self.state = "Death"  # Change state to "Death" when health is 0 or less
             self.frame = 0
