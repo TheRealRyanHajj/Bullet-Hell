@@ -20,9 +20,10 @@ class GameState(State):
         self.listOfBullets = []
         self.mouse = grefs["MouseMachine"].mouse_stuff
         self.BulletManager = BulletManager()
+        self.bg = pygame.image.load("assets/images/bg.png")
 
     def update(self):
-        self.window.fill((255,255,255))
+        
         self.Player.updatePosition()
         self.Pewpew.updatePosition()
         self.BulletManager.updateCooldown()
@@ -36,6 +37,7 @@ class GameState(State):
 
         self.Player.updateAnimation()
 
+        self.window.blit(self.bg,(0,0))
         self.listOfObjects.sort(key=lambda obj: obj.y+obj.height)
         for each in self.listOfObjects:
             each.draw()
