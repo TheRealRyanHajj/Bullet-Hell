@@ -74,4 +74,43 @@ class ImageManager:
         
         
         return frames
+    
+    def createZombieFrames():
+        image = pygame.image.load("assets\images\entites\zombie/GRun.png")
+        width = 16
+        height = 16
+
+        framesInAWidth = 8
+        framesInAHeight = 4
+        
+        frames = {} # Dict of frames
+        
+        for y in range(framesInAHeight):
+            for x in range(framesInAWidth):
+                frames[("Run",x,y)] = image.subsurface((x*width,y*height),(width,height))
+        
+        image = pygame.image.load("assets\images\entites\zombie/GHurt.png")
+        height = 16
+        framesInAWidth = 1
+
+        for y in range(framesInAHeight):
+            for x in range(framesInAWidth):
+                frames[("Hurt",x,y)] = image.subsurface((x*width,y*height),(width,height))
+
+        image = pygame.image.load("assets\images\entites\zombie/GDeath.png")
+        framesInAWidth = 8
+        height = 32
+
+        for y in range(framesInAHeight):
+            for x in range(framesInAWidth):
+                frames[("Death",x,y)] = image.subsurface((x*width,y*height),(width,height))
+        
+        image = pygame.image.load("assets\images\entites\zombie/GIdle.png")
+        height = 16
+
+        for y in range(framesInAHeight):
+            for x in range(framesInAWidth):
+                frames[("Idle",x,y)] = image.subsurface((x*width,y*height),(width,height))
+        
+        return frames
 

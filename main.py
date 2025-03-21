@@ -16,7 +16,7 @@ class Game:
         # Making a screen with pygame
         RESOLUTION_X, RESOLUTION_Y = 320,180 #Sreen Size
         self.window = pygame.display.set_mode((RESOLUTION_X, RESOLUTION_Y), pygame.FULLSCREEN | pygame.SCALED)
-        grefs["main"] = self
+        grefs["main"] = self 
 
         # Machine Usage
         self.state_machine = StateMachine()
