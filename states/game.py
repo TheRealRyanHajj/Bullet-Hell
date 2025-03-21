@@ -14,36 +14,62 @@ class GameState(State):
         
     def enter(self):
         self.window = grefs["main"].window
+        grefs["game"] = self
         self.Player = Player()
         self.Pewpew = Pewpew()
-        self.listOfObjects = [self.Pewpew,self.Player,Zombie(16,16)]
+        self.listOfObjects = [self.Pewpew, self.Player, Zombie(16, 16)]
         self.listOfBullets = []
         self.mouse = grefs["MouseMachine"].mouse_stuff
         self.BulletManager = BulletManager()
         self.bg = pygame.image.load("assets/images/bg.png")
 
     def update(self):
-        
+        # Update player and pewpew positions
         self.Player.updatePosition()
         self.Pewpew.updatePosition()
+        
+        # Update bullet cooldown
         self.BulletManager.updateCooldown()
-        if self.mouse["left"]: #if mouse left pressed
+
+        # Create a new bullet if mouse left is pressed
+        if self.mouse["left"]:  # If mouse left pressed
             if self.BulletManager.canSpawnNewBullet():
                 self.listOfObjects.append(Bullet())
 
+        # Update positions for Bullet and Zombie
         for each in self.listOfObjects:
-            if isinstance(each,(Bullet,Zombie)):
+            if isinstance(each, (Bullet, Zombie)):
                 each.updatePosition()
 
-        self.Player.updateAnimation()
+        # Check for bullet collisions with zombies
+        for bullet in self.listOfObjects:
+            if isinstance(bullet, Bullet):
+                for zombie in self.listOfObjects:
+                    if isinstance(zombie, Zombie):
+                        if bullet.rect.colliderect(zombie.rect):  # If the bullet collides with a zombie
+                            zombie.takeDamage(10)  # Deal damage to zombie (adjust as needed)
+                            self.listOfObjects.remove(bullet)  # Remove bullet after collision
+                            break  # Exit loop once collision is detected
 
-        self.window.blit(self.bg,(0,0))
-        self.listOfObjects.sort(key=lambda obj: obj.y+obj.height)
+        # Update player animation
+        self.Player.updateAnimation()
+        for each in self.listOfObjects:
+            if isinstance(each, (Zombie)):
+                each.updateAnimation()
+
+        # Draw background
+        self.window.blit(self.bg, (0, 0))
+
+        # Sort the objects for proper layering (e.g., bullets in front of zombies)
+        self.listOfObjects.sort(key=lambda obj: obj.y + obj.height)
+
+        # Draw all objects
         for each in self.listOfObjects:
             each.draw()
 
+        # Draw health bar for each zombie
         for each in self.listOfObjects:
-            if isinstance(each,(Zombie)):
+            if isinstance(each, Zombie):
                 each.drawHealthBar()
 
     def exit(self):

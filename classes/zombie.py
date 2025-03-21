@@ -27,6 +27,9 @@ class Zombie(Entity):
 
         self.screen = grefs["main"].window
 
+        # Create a rect for collision detection
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
+
     def updatePosition(self):
         if not self.target or self.health <= 0:
             return
@@ -47,22 +50,32 @@ class Zombie(Entity):
         else:
             self.state = "Idle"
 
-        self.updateAnimation()
-
+        # Update the rect position based on the zombie's new position
+        self.rect.topleft = (self.x, self.y)
 
     def takeDamage(self, amount):
         self.health -= amount
         if self.health <= 0:
-            self.state = "Death"
+            self.y -= 16
+            self.state = "Death"  # Change state to "Death" when health is 0 or less
+            self.frame = 0
         else:
-            self.state = "Hurt"
+            self.state = "Hurt"  # Change state to "Hurt" when taking damage
             self.frame = 0  # Reset frame to ensure the hurt animation displays properly
 
     def updateAnimation(self):
         if self.state == "Hurt":
             self.image = self.images.get(("Hurt", 0, self.dir))  # Single frame for Hurt state
+        elif self.state == "Death":
+            self.frame += self.dt * self.speed/4  # 12 FPS for death animation
+            if self.frame >= 8:  # After 8 frames, remove the zombie
+                self.frame = 0
+                # Remove zombie from listOfObjects (ensure it's removed in the main game loop)
+                if self in grefs["game"].listOfObjects:
+                    grefs["game"].listOfObjects.remove(self)
+            self.image = self.images.get(("Death", math.floor(self.frame), self.dir), self.images.get(("Idle", 0, self.dir)))
         else:
-            self.frame += self.dt * self.speed/4 # 12 FPS
+            self.frame += self.dt * self.speed/4  # 12 FPS
             if self.frame >= 8:
                 self.frame = 0
             self.image = self.images.get((self.state, math.floor(self.frame), self.dir), self.images.get(("Idle", 0, self.dir)))
