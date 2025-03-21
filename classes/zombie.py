@@ -18,7 +18,8 @@ class Zombie(Entity):
         self.target = grefs.get("Player", None)  # Track the player
         
         self.health = 100  # Health stat
-        self.max_health = 100
+        self.max_health = 100 
+        self.canTakeDamage = True
         
         self.frame = 0
         self.dir = 0
@@ -54,11 +55,14 @@ class Zombie(Entity):
         self.rect.topleft = (self.x, self.y)
 
     def takeDamage(self, amount):
+        if not self.canTakeDamage:
+            return
         self.health -= amount
-        if self.health <= 0 or self.state == "Death":
+        if self.health <= 0:
             self.y -= 16
             self.state = "Death"  # Change state to "Death" when health is 0 or less
             self.frame = 0
+            self.canTakeDamage = False
         else:
             self.state = "Hurt"  # Change state to "Hurt" when taking damage
             self.frame = 0  # Reset frame to ensure the hurt animation displays properly
