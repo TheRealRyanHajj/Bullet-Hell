@@ -4,7 +4,7 @@ from util.grefs import grefs
 from util.image_manager import ImageManager
 
 class Zombie(Entity):
-    def __init__(self, x, y):
+    def __init__(self, x, y, health):
         self.x = x
         self.y = y
         self.width = 16
@@ -17,8 +17,8 @@ class Zombie(Entity):
         self.dt = grefs["TimeMachine"].dt
         self.target = grefs.get("Player", None)  # Track the player
         
-        self.health = 100  # Health stat
-        self.max_health = 100 
+        self.health = health  # Health stat
+        self.max_health = health 
         self.canTakeDamage = True
         
         self.frame = 0
@@ -63,6 +63,7 @@ class Zombie(Entity):
             self.state = "Death"  # Change state to "Death" when health is 0 or less
             self.frame = 0
             self.canTakeDamage = False
+            grefs["ZombieManager"].zombiesKilled += 1
         else:
             self.state = "Hurt"  # Change state to "Hurt" when taking damage
             self.frame = 0  # Reset frame to ensure the hurt animation displays properly

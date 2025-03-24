@@ -2,7 +2,7 @@ from util.grefs import grefs
 
 class BulletManager:
     def __init__(self):
-        self.cooldownLength = 200   #ms
+        self.cooldownLength = 500   #ms
         self.cooldown       = 0     #ms
     
     def canSpawnNewBullet(self) -> bool:
