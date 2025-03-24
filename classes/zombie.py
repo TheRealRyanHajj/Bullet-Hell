@@ -12,6 +12,7 @@ class Zombie(Entity):
 
         self.speed = 50  # Slower than player
         self.velocity = pygame.math.Vector2(0, 0)
+        self.knockbackToAdd = pygame.math.Vector2(0, 0)
         self.mask = pygame.mask.Mask((16, 10), True)  # Collision mask
         self.maskSurface = self.mask.to_surface()
         self.dt = grefs["TimeMachine"].dt
@@ -50,11 +51,30 @@ class Zombie(Entity):
                 self.dir = 2 if direction.y < 0 else 0  # Up or Down
         else:
             self.state = "Idle"
+        
+        if self.knockbackToAdd.length() > 0:
+            self.x += self.knockbackToAdd.x
+            self.y += self.knockbackToAdd.y
+            self.state = "Hurt"
+            #reset
+            self.knockbackToAdd = pygame.math.Vector2(0, 0)
 
         # Update the rect position based on the zombie's new position
         self.rect.topleft = (self.x, self.y)
+        self.resolveCollisions()
+        
+    def resolveCollisions(self):
+        for obj in grefs["game"].listOfObjects:
+            if isinstance(obj, Zombie) and obj is not self:
+                if self.rect.colliderect(obj.rect):
+                    overlap = pygame.math.Vector2(self.x - obj.x, self.y - obj.y)
+                    if overlap.length() > 0:
+                        overlap = overlap.normalize() * 2  # Push back
+                        self.x += overlap.x
+                        self.y += overlap.y
 
-    def takeDamage(self, amount):
+
+    def takeDamage(self, amount, source):
         if not self.canTakeDamage:
             return
         self.health -= amount
@@ -67,6 +87,9 @@ class Zombie(Entity):
         else:
             self.state = "Hurt"  # Change state to "Hurt" when taking damage
             self.frame = 0  # Reset frame to ensure the hurt animation displays properly
+            knockback_dir = pygame.math.Vector2(self.x - source.x, self.y - source.y)
+            knockback_dir = knockback_dir.normalize()
+            self.knockbackToAdd = knockback_dir * 4  # Adjust force as needed
 
     def updateAnimation(self):
         if self.state == "Hurt":

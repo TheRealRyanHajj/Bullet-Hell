@@ -63,10 +63,10 @@ class ZombieManager:
 
     def drawUi(self):
         percentage = self.get_wave_completion_percentage()
-        bar_width = 100
-        bar_height = 8
+        bar_width = 200
+        bar_height = 4
         bar_x = (320 - bar_width) // 2
-        bar_y = 10
+        bar_y = 4
         fill_width = (percentage / 100) * bar_width
         
         pygame.draw.rect(self.window, (50, 50, 50), (bar_x, bar_y, bar_width, bar_height))  # Background bar

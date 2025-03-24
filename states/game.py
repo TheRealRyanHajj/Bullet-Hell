@@ -6,7 +6,6 @@ from classes.player import Player
 from classes.pewpew import Pewpew
 from classes.bullet import Bullet
 from classes.zombie import Zombie
-from classes.inventory import Inventory
 from util.bullet_manager import BulletManager
 from util.zombie_manager import ZombieManager
 
@@ -24,7 +23,6 @@ class GameState(State):
         self.mouse = grefs["MouseMachine"].mouse_stuff
         self.ZombieManager = ZombieManager()
         self.BulletManager = BulletManager()
-        self.Inventory = Inventory()
         self.bulletDamage = 50
         self.bg = pygame.image.load("assets/images/bg.png")
 
@@ -53,7 +51,7 @@ class GameState(State):
                 for zombie in self.listOfObjects:
                     if isinstance(zombie, Zombie):
                         if bullet.rect.colliderect(zombie.rect) and zombie.canTakeDamage:  # If the bullet collides with a zombie
-                            zombie.takeDamage(self.bulletDamage)  # Deal damage to zombie (adjust as needed)
+                            zombie.takeDamage(self.bulletDamage,self.Player)  # Deal damage to zombie (adjust as needed)
                             self.listOfObjects.remove(bullet)  # Remove bullet after collision
                             break  # Exit loop once collision is detected
 
@@ -79,7 +77,6 @@ class GameState(State):
                 each.drawHealthBar()
         self.Player.drawUi()
         self.ZombieManager.drawUi()
-        self.Inventory.update()
 
     def exit(self):
         ...
