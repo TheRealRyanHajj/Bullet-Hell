@@ -7,7 +7,7 @@ class ZombieManager:
     def __init__(self):
         self.wave = 0
         self.spawn_timer = 0
-        self.spawn_interval = 750  # Base interval
+        self.spawn_interval = 2000  # Base interval
         self.zombies_remaining = 0
         self.total_zombies = 0
         self.current_time = pygame.time.get_ticks()

@@ -4,7 +4,9 @@ from util.grefs import grefs
 from util.image_manager import ImageManager
 
 class Zombie(Entity):
-    def __init__(self, x, y, health):
+    def __init__(self, x, y, health, type = 0):
+        self.type = type
+
         self.x = x
         self.y = y
         self.width = 16
@@ -26,18 +28,20 @@ class Zombie(Entity):
         self.dir = 0
         self.state = "Run"
         self.images = ImageManager.createZombieFrames()  # Use zombie-specific frames
+        self.animationLength = 0
 
         self.screen = grefs["main"].window
 
         # Create a rect for collision detection
-        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
+        self.rect = pygame.Rect(3, 10, 10, 6)
+        self.bulletRect = pygame.Rect(2, 0, 12, 16)
 
     def updatePosition(self):
         if not self.target or self.health <= 0:
             return
         
         direction = pygame.math.Vector2(self.target.x - self.x, self.target.y - self.y)
-        if direction.length() > 5:
+        if direction.length() > 5 and not self.animationLength > 0:
             direction = direction.normalize()
             self.velocity = direction * self.speed * self.dt
             self.x += self.velocity.x
@@ -60,7 +64,8 @@ class Zombie(Entity):
             self.knockbackToAdd = pygame.math.Vector2(0, 0)
 
         # Update the rect position based on the zombie's new position
-        self.rect.topleft = (self.x, self.y)
+        self.rect.topleft = (self.x+3, self.y+10)
+        self.bulletRect.topleft = (self.x+2,self.y)
         self.resolveCollisions()
         
     def resolveCollisions(self):
@@ -87,13 +92,15 @@ class Zombie(Entity):
         else:
             self.state = "Hurt"  # Change state to "Hurt" when taking damage
             self.frame = 0  # Reset frame to ensure the hurt animation displays properly
+            self.animationLength = 2
             knockback_dir = pygame.math.Vector2(self.x - source.x, self.y - source.y)
             knockback_dir = knockback_dir.normalize()
             self.knockbackToAdd = knockback_dir * 4  # Adjust force as needed
 
     def updateAnimation(self):
-        if self.state == "Hurt":
+        if self.state == "Hurt" or self.animationLength > 0:
             self.image = self.images.get(("Hurt", 0, self.dir))  # Single frame for Hurt state
+            self.animationLength -= self.dt * self.speed/4  # 12 FPS
         elif self.state == "Death":
             self.frame += self.dt * self.speed/4  # 12 FPS for death animation
             if self.frame >= 8:  # After 8 frames, remove the zombie

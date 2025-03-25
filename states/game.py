@@ -50,7 +50,7 @@ class GameState(State):
             if isinstance(bullet, Bullet):
                 for zombie in self.listOfObjects:
                     if isinstance(zombie, Zombie):
-                        if bullet.rect.colliderect(zombie.rect) and zombie.canTakeDamage:  # If the bullet collides with a zombie
+                        if bullet.rect.colliderect(zombie.bulletRect) and zombie.canTakeDamage:  # If the bullet collides with a zombie
                             zombie.takeDamage(self.bulletDamage,self.Player)  # Deal damage to zombie (adjust as needed)
                             self.listOfObjects.remove(bullet)  # Remove bullet after collision
                             break  # Exit loop once collision is detected
