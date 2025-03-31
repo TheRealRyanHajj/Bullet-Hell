@@ -7,7 +7,6 @@ class MenuState(State):
         self.state_machine = state_machine
 
     def enter(self):
-        self.window = grefs["main"].window
         self.bigButtonImage = pygame.image.load("assets/images/gui/buttons.png")
         self.buttonImages = [
             self.bigButtonImage.subsurface((0,0,32,16)),
@@ -25,7 +24,8 @@ class MenuState(State):
         self.bg = pygame.image.load("assets/images/bg.png")
 
 
-    def update(self):
+    def update(self,window):
+        self.window = window
         self.window.blit(self.bg, (0, 0))
         self.window.blit(self.logo,(160-self.logo.get_width()/2,8))
         

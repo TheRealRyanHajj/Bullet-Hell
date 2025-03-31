@@ -96,14 +96,14 @@ class Player(Entity):
         ])
         
     def drawUi(self):
-        charge_height       = 8 
-        charge_width        = 100
-        bar_x               = 110
-        bar_y               = 180 - charge_height - 4
+        charge_height = 8 
+        charge_width = 100
+        bar_x = 110
+        bar_y = 180 - charge_height - 4
 
-        dashPercent         = min(self.dash / self.dash_cooldown, 1)
-        charge_bar_width    = charge_width * dashPercent
+        dashPercent = min(self.dash / self.dash_cooldown, 1)
+        charge_bar_width = charge_width * dashPercent
 
-        bar_rect            = pygame.Rect(bar_x, bar_y, charge_bar_width, charge_height)
+        bar_rect = pygame.Rect(bar_x, bar_y, charge_bar_width, charge_height)
         pygame.draw.rect(self.screen, (0, 0, 0), pygame.Rect(bar_x, bar_y, charge_width, charge_height))
         pygame.draw.rect(self.screen, (255, 255, 255), bar_rect)

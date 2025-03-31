@@ -13,7 +13,7 @@ class ZombieManager:
         self.current_time = pygame.time.get_ticks()
         self.window = grefs["main"].window
         grefs["ZombieManager"] = self
-        self.difficulty = 1
+        self.difficulty = 2
         self.spawn_positions = [
             (-64, i) for i in range(0, 200, 20)
         ] + [

@@ -7,7 +7,6 @@ class CreditsState(State):
         self.state_machine = state_machine
 
     def enter(self):
-        self.window = grefs["main"].window
         self.dt = grefs["TimeMachine"].dt
         # Load fonts with different sizes
         self.font_small = pygame.font.Font('assets\images\gui\Pixel_NES.otf', 8)
@@ -28,7 +27,8 @@ class CreditsState(State):
         self.offsetY = -202
 
         
-    def update(self):
+    def update(self,window):
+        self.window = window
         self.window.fill((0, 0, 0))
         speed = 1 / float(self.dt)  # Calculate speed factor
         self.offsetY += self.dt * speed

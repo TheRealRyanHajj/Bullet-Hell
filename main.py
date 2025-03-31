@@ -30,7 +30,7 @@ class Game:
         while self.running:
             self.event_machine.check_events()
             self.MouseMachine.update()
-            self.state_machine.update()
+            self.state_machine.update(self.window)
             pygame.display.flip()
             self.time_machine.update()
 
